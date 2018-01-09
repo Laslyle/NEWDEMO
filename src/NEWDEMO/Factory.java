@@ -15,10 +15,9 @@ public class Factory {
 	static ArrayList<Emp> EmpList = new ArrayList<Emp>();
 	static Scanner sc=new Scanner(System.in);
     public static void getInstance(String s) throws IOException, NumberFormatException, InterruptedException{
-    	if(s.equals("1")){
+    	if(s.equals("1"))
     		Prt1();
-    	}
-    	else if(s.equals("2"))
+    	   else if(s.equals("2"))
            Prt2();
            else if(s.equals("3"))
         	   Prt3();
@@ -30,68 +29,128 @@ public class Factory {
         	   add();
            else if(s.equals("7"))
         	   del();
-           else if(s.equalsIgnoreCase("q"));
+           else if(s.equalsIgnoreCase("q"))
     	       System.exit(0);
-    	
+    	   else
+    	  System.out.print("Invalid code! Press Enter to continue＃");	
+    	if(sc.nextLine().equals(""))
+    		Menu.getInstance();
     }
 
-	private static void Prt1() throws IOException {
+	private static void Prt1() throws IOException, NumberFormatException, InterruptedException {
 		// TODO Auto-generated method stub
 		Read();
 		for(Emp s:EmpList){
 		System.out.println(s.getEmpPayNumber()+":"+s.getTelNumber()+":"+s.getLastName()+":"+s.getFirstName()+":"+s.getInitName()+":"+s.getDepNumber()+":"+s.getJobTitle()+":"+s.getDate());
 		}
+		 System.out.print("Press Enter to continue... ");	
+	    	if(sc.nextLine().equals(""))
+	    		Menu.getInstance();
 	}
     
-	private static void Prt2() throws IOException {
+	private static void Prt2() throws IOException, NumberFormatException, InterruptedException {
 		// TODO Auto-generated method stub
 		Read();
 		   Collections.sort(EmpList, new SortByLastName());
 		   for(Emp s:EmpList){
 				System.out.println(s.getLastName()+":"+s.getFirstName()+":"+s.getInitName()+":"+s.getEmpPayNumber()+":"+s.getTelNumber()+":"+":"+s.getDepNumber()+":"+s.getJobTitle()+":"+s.getDate());
 				}
+		   System.out.print("Press Enter to continue... ");	
+	    	if(sc.nextLine().equals(""))
+	    		Menu.getInstance();
 	}
 
 
-	private static void Prt3() throws IOException {
+	private static void Prt3() throws IOException, NumberFormatException, InterruptedException {
 		// TODO Auto-generated method stub
 		Read();
 		for(Emp s:EmpList){
 		System.out.println(s.getLastName()+":"+s.getFirstName()+":"+s.getTelNumber());
 		}
+		 System.out.print("Press Enter to continue... ");	
+	    	if(sc.nextLine().equals(""))
+	    		Menu.getInstance();
 	}
 
-	private static void Prt4() throws IOException {
+	private static void Prt4() throws IOException, NumberFormatException, InterruptedException {
 		// TODO Auto-generated method stub
 		Read();
 		Collections.sort(EmpList, new SortByLastName());
 		for(Emp s:EmpList){
 		System.out.println(s.getLastName()+":"+s.getFirstName()+":"+s.getTelNumber());
 		}
+		 System.out.print("Press Enter to continue... ");	
+	    	if(sc.nextLine().equals(""))
+	    		Menu.getInstance();
 	}
 
-	private static void Ser() throws IOException {
+	private static void Ser() throws IOException, NumberFormatException, InterruptedException {
 		// TODO Auto-generated method stub
 		Read();
-		String str=sc.nextLine();
-		for(Emp s:EmpList){
-			if(str.equals(s.getLastName()))
-				System.out.println(s.getEmpPayNumber()+":"+s.getTelNumber()+":"+s.getLastName()+":"+s.getFirstName()+":"+s.getInitName()+":"+s.getDepNumber()+":"+s.getJobTitle()+":"+s.getDate());
+		int flag=0;
+		String str=null;
+		while(true){
+		System.out.println("(Enter keyword:");
+		str=sc.nextLine();
+		if(str.equals(""))
+			System.out.println("No keyword entered 每 try agai");
+		else
+			break;
 		}
-				
-			
+	
+		for(Emp s:EmpList){
+			if(str.equals(s.getLastName())){
+				flag=1;
+				System.out.println(s.getEmpPayNumber()+":"+s.getTelNumber()+":"+s.getLastName()+":"+s.getFirstName()+":"+s.getInitName()+":"+s.getDepNumber()+":"+s.getJobTitle()+":"+s.getDate());
+				System.out.print("Press Enter to continue... ");	
+		    	if(sc.nextLine().equals(""))
+		    		Menu.getInstance();
+		}
+		
+		}
+		if(flag==0)
+		{
+			System.out.println("Keyword 每 "+str+" - not found");
+			System.out.print("Press Enter to continue... ");	
+			if(sc.nextLine().equals(""))
+				Menu.getInstance();
 	}
+		}
 	
 	private static void add() throws IOException, NumberFormatException, InterruptedException {
 		// TODO Auto-generated method stub
 		Read();
-		 FileWriter fw = new FileWriter(file, false);
+		// FileWriter fw = new FileWriter(file, false);
 	    Emp em=new Emp();
 		System.out.println("Employee Record Additions:\r\nEnter the following details of the new employee:\r\nEmployee 3 digit payroll number\r\nPhone Number\r\nLast Name\r\nFirst Name\r\nMiddle Init\r\nDept #\r\nJob Title\r\nDate Hir\r\n\r\n");
-		System.out.println("Enter employee 3 digit payroll number");
-		em.setEmpPayNumber(sc.nextLine());
+		
+		while(true){
+			System.out.println("Enter employee 3 digit payroll number");
+		String empnum=sc.nextLine();
+		int flag=0;
+		for(Emp s:EmpList){
+			if(s.EmpPayNumber.equals(empnum)){
+				System.out.println("Repeate!");
+				flag=1;
+			}
+		}
+		if(empnum.equals(""))
+			System.out.println("No payroll number entered 每 try again");
+		else if (empnum.matches("[\\D]{1,}"))
+			System.out.println("Payroll number can contain only numerical characte");
+		else if(empnum.matches("[\\d]{3}")&&flag==0){
+		em.setEmpPayNumber(empnum);
+	break;
+	}}
+		while(true){
 		System.out.println("Enter Phone Number (02-12345678)");
+		String telnum=sc.nextLine();
+		if(telnum.equals(""))
+			System.out.println("No phone number entered 每 try again");
+		else if(telnum.matches(""))
 		em.setTelNumber(sc.nextLine());
+		break;
+		}
 		System.out.println("Enter Last Name");
 		em.setLastName(sc.nextLine());
 		System.out.println("Enter First Name");
@@ -105,11 +164,11 @@ public class Factory {
 		System.out.println("Enter Date Hired (dd-mm-yyyy)");
 		em.setDate(sc.nextLine());
 		EmpList.add(em);
-		for(Emp s:EmpList){
+	/*	for(Emp s:EmpList){
 				fw.write(s.getEmpPayNumber()+":"+s.getTelNumber()+":"+s.getLastName()+":"+s.getFirstName()+":"+s.getInitName()+":"+s.getDepNumber()+":"+s.getJobTitle()+":"+s.getDate()+"\r\n");
 		}
 		fw.flush();
-        fw.close();
+        fw.close();*/
         Menu.getInstance();
 	}
 
